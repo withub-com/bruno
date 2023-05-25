@@ -91,7 +91,6 @@ enum _ButtonType {
   right,
 }
 
-
 ///高度灵活的通用的弹窗组件
 ///
 ///布局规则：
@@ -604,26 +603,29 @@ class BrnDialogManager {
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext dialogContext) {
-        return BrnDialog(
-          iconImage: iconWidget,
-          showIcon: showIcon,
-          titleText: title,
-          titleWidget: titleWidget,
-          messageText: message,
-          contentWidget: messageWidget,
-          warningText: warning,
-          warningWidget: warningWidget,
-          actionsText: [label],
-          actionsWidget: actionsWidget,
-          titleMaxLines: titleMaxLines,
-          themeData: themeData,
-          indexedActionCallback: (index) {
-            if (index == 0) {
-              if (onTap != null) {
-                onTap();
+        return WillPopScope(
+          onWillPop: () async => barrierDismissible, //关键代码
+          child: BrnDialog(
+            iconImage: iconWidget,
+            showIcon: showIcon,
+            titleText: title,
+            titleWidget: titleWidget,
+            messageText: message,
+            contentWidget: messageWidget,
+            warningText: warning,
+            warningWidget: warningWidget,
+            actionsText: [label],
+            actionsWidget: actionsWidget,
+            titleMaxLines: titleMaxLines,
+            themeData: themeData,
+            indexedActionCallback: (index) {
+              if (index == 0) {
+                if (onTap != null) {
+                  onTap();
+                }
               }
-            }
-          },
+            },
+          ),
         );
       },
     );
